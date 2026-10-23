@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practo Ray Billing Simulator — Sora Demo</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sphere.css">
+  <link rel="icon" type="image/png" href="icons/icon-32.png">
+  <style>
+    .billing-screen {
+      background: #FFFFFF;
+      border: 1px solid var(--color-mist);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      max-width: 850px;
+      margin: 1.5rem auto;
+    }
+    .billing-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--color-mist);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .invoice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    .invoice-table th, .invoice-table td {
+      border: 1px solid var(--color-mist);
+      padding: 0.75rem 1rem;
+    }
+    .invoice-table th {
+      background: #F8FAFC;
+    }
+    .simulator-callout {
+      background: #EBF3FC;
+      border-left: 4px solid var(--color-blue);
+      padding: 1rem 1.25rem;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body style="background-color: #F0F4F8;">
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span class="brand-name">Sora</span>
+        <span class="brand-tag">Billing Simulator</span>
+      </a>
+
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-secondary btn-sm">&larr; Back to Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="simulator-callout">
+      <strong>Interactive Billing Screen Simulation:</strong> 
+      Notice the floating <strong>"S" Sphere</strong> at the bottom-right corner. 
+      Click it to see how counter staff sends a WhatsApp review request in under 3 seconds! 
+      It automatically extracts the patient's name and phone number from this invoice.
+    </div>
+
+    <!-- Realistic Billing Invoice -->
+    <div class="billing-screen">
+      <div class="billing-top">
+        <div>
+          <h2 style="font-size: 1.35rem; color: #1E293B;">Ray Dental & Healthcare Centre</h2>
+          <p style="color: #64748B; font-size: 0.85rem;">Indiranagar, Bengaluru, Karnataka 560038</p>
+        </div>
+        <div style="text-align: right;">
+          <h3 style="font-size: 1.1rem; color: #0284C7;">TAX INVOICE</h3>
+          <p style="color: #64748B; font-size: 0.85rem;">#INV-2026-8942</p>
+          <p style="color: #64748B; font-size: 0.85rem;">Date: Today, 15:30</p>
+        </div>
+      </div>
+
+      <div class="invoice-grid">
+        <div>
+          <label class="form-label">Patient Full Name</label>
+          <input 
+            type="text" 
+            id="patient-name" 
+            name="patient_name" 
+            class="form-input" 
+            value="Dr. Aarav Patel" 
+            data-customer-name="Dr. Aarav Patel"
+          >
+        </div>
+        <div>
+          <label class="form-label">Patient Mobile Number</label>
+          <input 
+            type="tel" 
+            id="patient-mobile" 
+            name="patient_mobile" 
+            class="form-input" 
+            value="9876543210" 
+            data-customer-phone="9876543210"
+          >
+        </div>
+      </div>
+
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Description of Treatment / Service</th>
+            <th style="width: 100px; text-align: center;">Qty</th>
+            <th style="width: 150px; text-align: right;">Amount (INR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Comprehensive Dental Health Examination & Consultation</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: right;">₹ 600.00</td>
+          </tr>
+          <tr>
+            <td>Ultrasonic Scaling & Dental Polishing</td>
+            <td style="text-align: center;">1</td>
+            <td style="text-align: right;">₹ 1,200.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Grand Total:</td>
+            <td style="text-align: right; font-weight: 800; font-size: 1.1rem; color: #0F172A;">₹ 1,800.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+        <span style="font-size: 0.85rem; color: #64748B;">Payment Status: <strong>PAID (UPI)</strong></span>
+        <button class="btn btn-secondary" style="font-size: 0.85rem;" onclick="alert('Printing receipt...');">
+          Print Receipt
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Load Sora Floating Sphere Script -->
+  <script type="module">
+    import { initSoraSphere } from "./js/sphere.js";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const storeId = urlParams.get("store_id") || "demo-store";
+
+    // Initialize floating sphere with store ID
+    initSoraSphere({ storeId });
+  </script>
+</body>
+</html>

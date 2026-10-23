@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Setup — Sora</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="icons/icon-32.png">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span class="brand-name">Sora</span>
+      </a>
+
+      <div class="nav-actions">
+        <span id="user-greeting" style="font-size: 0.85rem; color: var(--color-text-muted);"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Setup Container -->
+  <main class="main-content">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Set Up Your Store</h2>
+        <p>Your store ID is automatically generated as your primary key. Just enter your store name and phone number.</p>
+      </div>
+
+      <div id="setup-error" class="alert alert-error" style="display: none;"></div>
+
+      <form id="setup-form">
+        <!-- Auto Generated Store ID -->
+        <div class="form-group">
+          <label class="form-label">
+            Store ID <span class="form-label-hint">(Automatically created primary key)</span>
+          </label>
+          <div class="store-id-badge">
+            <span id="store-id-display" class="store-id-text">sora-xxxxxx</span>
+            <button id="btn-regenerate-id" type="button" class="btn btn-secondary btn-sm" title="Generate another ID">
+              ↻ Regenerate
+            </button>
+          </div>
+          <input type="hidden" id="store-id-input" name="store_id">
+        </div>
+
+        <!-- Store Name -->
+        <div class="form-group">
+          <label class="form-label" for="store-name-input">Store / Clinic Name</label>
+          <input 
+            type="text" 
+            id="store-name-input" 
+            class="form-input" 
+            placeholder="e.g. Aura Dental & Implant Centre" 
+            required
+            autocomplete="organization"
+          >
+        </div>
+
+        <!-- Owner Phone Number -->
+        <div class="form-group">
+          <label class="form-label" for="owner-phone-input">Owner's Phone Number</label>
+          <input 
+            type="tel" 
+            id="owner-phone-input" 
+            class="form-input" 
+            placeholder="e.g. +91 98765 43210" 
+            required
+            autocomplete="tel"
+          >
+        </div>
+
+        <!-- Google Review Link -->
+        <div class="form-group">
+          <label class="form-label" for="google-review-input">
+            Google Review Link 
+            <span class="form-label-hint">(Optional — where customers post reviews)</span>
+          </label>
+          <input 
+            type="url" 
+            id="google-review-input" 
+            class="form-input" 
+            placeholder="https://g.page/r/.../review"
+          >
+        </div>
+
+        <button type="submit" id="btn-save-store" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 1rem;">
+          Create Store & Launch Dashboard &rarr;
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Sora Platform. Simple, secure review automation.</p>
+  </footer>
+
+  <script type="module" src="js/setup.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Dashboard — Sora</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sphere.css">
+  <link rel="icon" type="image/png" href="icons/icon-32.png">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="dashboard.html" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span class="brand-name">Sora</span>
+        <span class="brand-tag">Dashboard</span>
+      </a>
+
+      <div class="nav-actions">
+        <span id="user-profile-name" style="font-size: 0.85rem; font-weight: 600; color: var(--color-navy);"></span>
+        <a id="btn-open-demo" href="demo.html" class="btn btn-secondary btn-sm" target="_blank">
+          Test Billing Demo ↗
+        </a>
+        <button id="btn-signout" class="btn btn-secondary btn-sm">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Dashboard Header -->
+    <div class="dash-header">
+      <div class="dash-title-group">
+        <h1 id="dash-store-name">Loading Store...</h1>
+        <div class="dash-meta">
+          <span>Store ID:</span>
+          <span id="dash-store-id" class="setup-code">...</span>
+          <button id="btn-copy-id" class="btn btn-secondary btn-sm" style="padding: 0.15rem 0.5rem; font-size: 0.75rem;">
+            Copy ID
+          </button>
+          <span id="copy-notice" style="color: var(--color-success); font-size: 0.8rem; display: none;">Copied!</span>
+          <span>•</span>
+          <span>Owner Phone: <strong id="dash-owner-phone">—</strong></span>
+          <span class="badge badge-success">● Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Extension Setup Banner -->
+    <div class="setup-banner">
+      <div>
+        <h3>Counter Chrome Extension Setup</h3>
+        <p>
+          Configure your billing counter PC in 10 seconds: Install the Sora Chrome Extension, open its options, and paste your Store ID.
+        </p>
+      </div>
+      <div>
+        <a href="demo.html" class="btn btn-secondary" target="_blank" style="font-size: 0.9rem;">
+          Try Demo Billing Counter
+        </a>
+      </div>
+    </div>
+
+    <!-- Metric Stat Cards -->
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-label">Review Requests Sent</div>
+        <div id="stat-total-requests" class="stat-value">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Positive Ratings (4-5★)</div>
+        <div id="stat-positive-reviews" class="stat-value">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Private Feedback Logs</div>
+        <div id="stat-total-feedback" class="stat-value">0</div>
+      </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="tab-requests">Review Requests</button>
+      <button class="tab-btn" data-tab="tab-feedback">Private Feedback</button>
+      <button class="tab-btn" data-tab="tab-test">Send Test Request</button>
+      <button class="tab-btn" data-tab="tab-settings">Store Settings</button>
+    </div>
+
+    <!-- Tab 1: Review Requests Table -->
+    <div id="tab-requests" class="tab-pane active">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Customer Mobile</th>
+              <th>Date & Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="requests-table-body"></tbody>
+        </table>
+        <div id="empty-requests" class="empty-state" style="display: none;">
+          <h4>No review requests sent yet</h4>
+          <p>Click the "Send Test Request" tab or use the Chrome Extension on your billing screen to send your first request.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Private Customer Feedback -->
+    <div id="tab-feedback" class="tab-pane">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Rating</th>
+              <th>Customer Feedback</th>
+              <th>Customer</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="feedback-table-body"></tbody>
+        </table>
+        <div id="empty-feedback" class="empty-state" style="display: none;">
+          <h4>No feedback received yet</h4>
+          <p>Customer feedback will appear here in real time as patients and customers rate their experience.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Send Test Request Form -->
+    <div id="tab-test" class="tab-pane">
+      <div class="card" style="max-width: 550px;">
+        <h3 style="margin-bottom: 0.5rem;">Send a Review Request</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+          Send an instant review request to a customer's phone to test the counter workflow.
+        </p>
+
+        <div id="test-request-success" class="alert alert-success" style="display: none;">
+          ✓ Review request logged successfully!
+        </div>
+
+        <form id="test-request-form">
+          <div class="form-group">
+            <label class="form-label" for="test-customer-name">Customer Name</label>
+            <input type="text" id="test-customer-name" class="form-input" placeholder="e.g. Dr. Aarav Patel" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="test-customer-phone">Customer Mobile Number</label>
+            <input type="tel" id="test-customer-phone" class="form-input" placeholder="10-digit number (e.g. 9876543210)" required>
+          </div>
+          <button type="submit" id="btn-send-test-request" class="btn btn-primary" style="width: 100%;">
+            Send Review Request
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tab 4: Settings -->
+    <div id="tab-settings" class="tab-pane">
+      <div class="card" style="max-width: 550px;">
+        <h3 style="margin-bottom: 1rem;">Store Settings</h3>
+        <div id="settings-success" class="alert alert-success" style="display: none;">
+          ✓ Settings saved successfully.
+        </div>
+        <form id="settings-form">
+          <div class="form-group">
+            <label class="form-label" for="settings-store-name">Store Name</label>
+            <input type="text" id="settings-store-name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="settings-owner-phone">Owner Phone Number</label>
+            <input type="tel" id="settings-owner-phone" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="settings-review-link">Google Review Link</label>
+            <input type="url" id="settings-review-link" class="form-input" placeholder="https://g.page/r/.../review">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+
+      <!-- WhatsApp Business API Card -->
+      <div class="card" style="max-width: 550px; margin-top: 1.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <h3 style="margin: 0;">WhatsApp Business API</h3>
+          <span id="wa-status-badge" class="badge badge-success" style="display: none;">● Your Number</span>
+        </div>
+        <p style="color: var(--color-text-muted); font-size: 0.88rem; margin-bottom: 1.25rem; line-height: 1.5;">
+          By default, Sora sends WhatsApp messages from its own number. Connect your store's own
+          WhatsApp Business API to send messages under your brand name instead.
+        </p>
+
+        <div id="wa-success" class="alert alert-success" style="display: none;">✓ WhatsApp credentials saved.</div>
+        <div id="wa-disconnect-success" class="alert alert-success" style="display: none;">✓ Disconnected. Sora's number will be used.</div>
+        <div id="wa-error" class="alert" style="display: none; background: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; padding: 0.75rem 1rem; border-radius: 8px;"></div>
+
+        <form id="wa-form">
+          <div class="form-group">
+            <label class="form-label" for="wa-phone-number-id">
+              Phone Number ID
+              <a href="https://developers.facebook.com/apps/" target="_blank"
+                style="font-size: 0.78rem; color: var(--color-blue); margin-left: 0.4rem;">Where to find this ↗</a>
+            </label>
+            <input type="text" id="wa-phone-number-id" class="form-input"
+              placeholder="e.g. 123456789012345" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wa-access-token">Access Token</label>
+            <input type="password" id="wa-access-token" class="form-input"
+              placeholder="Paste your Meta permanent access token" autocomplete="off">
+            <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.3rem;">
+              Use a System User permanent token from Meta Business Manager. Temporary tokens expire in 24 hours.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="submit" id="btn-save-wa" class="btn btn-primary">Connect WhatsApp</button>
+            <button type="button" id="btn-disconnect-wa" class="btn btn-secondary"
+              style="display: none;">Disconnect</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Sora Platform. Simple, secure review automation.</p>
+  </footer>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
